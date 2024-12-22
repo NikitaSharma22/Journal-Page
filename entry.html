@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Journal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #F5F5DC 0%, #E6D5C3 50%, #F5F5DC 100%);
+            color: #4A3728;
+            line-height: 1.6;
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: 
+                0 10px 30px rgba(74, 55, 40, 0.1),
+                0 1px 1px rgba(74, 55, 40, 0.05),
+                0 2px 2px rgba(74, 55, 40, 0.05),
+                0 4px 4px rgba(74, 55, 40, 0.05);
+            backdrop-filter: blur(10px);
+            transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 20px 40px rgba(74, 55, 40, 0.15),
+                0 1px 1px rgba(74, 55, 40, 0.1),
+                0 2px 2px rgba(74, 55, 40, 0.1),
+                0 4px 4px rgba(74, 55, 40, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: #8B634B;
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #8B634B, #D4BFA7);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .header:hover h1::after {
+            width: 100px;
+        }
+
+        .date-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            background: linear-gradient(145deg, #F8F4EA, #FFFFFF);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 2px solid transparent;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .date-section input {
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 2px solid #D4BFA7;
+            background-color: #FFFFFF;
+            color: #4A3728;
+            font-size: 1.1em;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .date-section input:hover {
+            border-color: #8B634B;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mood-tracker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(145deg, #F8F4EA, #FFFFFF);
+            border-radius: 20px;
+            justify-content: center;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .mood-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background-color: #FFFFFF;
+            border-radius: 25px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            font-size: 1em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mood-option::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(139, 99, 75, 0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.4s ease;
+        }
+
+        .mood-option:hover::before {
+            transform: translate(-50%, -50%) scale(2);
+        }
+
+        .mood-option:hover {
+            background-color: #8B634B;
+            color: #FFFFFF;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(139, 99, 75, 0.2);
+        }
+
+        .mood-option.selected {
+            background-color: #8B634B;
+            color: #FFFFFF;
+            border-color: #8B634B;
+            animation: pulse 0.3s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .entry-field textarea {
+            width: 100%;
+            padding: 25px;
+            border: 2px solid #D4BFA7;
+            border-radius: 20px;
+            background-color: #FFFFFF;
+            color: #4A3728;
+            font-size: 1.1em;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.8;
+            min-height: 400px;
+            resize: vertical;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .entry-field textarea:focus {
+            outline: none;
+            border-color: #8B634B;
+            box-shadow: 
+                inset 0 2px 4px rgba(0, 0, 0, 0.05),
+                0 0 0 3px rgba(139, 99, 75, 0.1);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+            margin-top: 40px;
+        }
+
+        button {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1em;
+            cursor: pointer;
+            min-width: 160px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s ease;
+        }
+
+        button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #8B634B, #755341);
+            color: #FFFFFF;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(139, 99, 75, 0.3);
+        }
+
+        .draft-btn {
+            background: linear-gradient(135deg, #D4BFA7, #C4AF97);
+            color: #4A3728;
+        }
+
+        .draft-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(212, 191, 167, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container animate-fadeIn">
+        <div class="header">
+            <h1>My Journal</h1>
+        </div>
+
+        <div class="date-section">
+            <input type="date" id="entry-date">
+        </div>
+
+        <div class="mood-tracker">
+            <div class="mood-option">😊 Happy</div>
+            <div class="mood-option">😌 Calm</div>
+            <div class="mood-option">🥰 Loved</div>
+            <div class="mood-option">✨ Inspired</div>
+            <div class="mood-option">🤔 Thoughtful</div>
+            <div class="mood-option">😔 Sad</div>
+            <div class="mood-option">😤 Angry</div>
+            <div class="mood-option">😴 Tired</div>
+            <div class="mood-option">😰 Anxious</div>
+            <div class="mood-option">🌟 Excited</div>
+            <div class="mood-option">🧘‍♀️ Peaceful</div>
+            <div class="mood-option">💪 Motivated</div>
+        </div>
+
+        <div class="entry-field">
+            <textarea id="entry-content" placeholder="Write your thoughts here..."></textarea>
+        </div>
+
+        <div class="buttons">
+            <button class="draft-btn">Save as Draft</button>
+            <button class="save-btn">Save Entry</button>
+        </div>
+    </div>
+
+    <script>
+        // Add click handler for mood selection
+        document.querySelectorAll('.mood-option').forEach(mood => {
+            mood.addEventListener('click', () => {
+                document.querySelectorAll('.mood-option').forEach(m => m.classList.remove('selected'));
+                mood.classList.add('selected');
+            });
+        });
+
+        // Add initial animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.mood-option, .date-section, .entry-field, .buttons');
+            elements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.animation = `fadeIn 0.5s ease-out ${index * 0.1}s forwards`;
+            });
+        });
+    </script>
+</body>
+</html>

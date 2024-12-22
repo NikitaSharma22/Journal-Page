@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Begin Your Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cedarville Cursive';
+            background-color: #F5EFE0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #5D4037;
+        }
+        .welcome-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #FFFFFF;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(93, 64, 55, 0.1);
+            padding: 45px;
+            text-align: center;
+            max-width: 800px;
+            width: 90%;
+            margin-top: 80px;
+            margin: auto; /* Center horizontally */
+            position: absolute; /* Enable vertical alignment */
+            top: 1%; /* Start halfway down */
+            transform: translateY(-50%, -50%S); /* Center vertically */
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+        .welcome-container {
+            display: flex;
+        }
+        h1 {
+            font-family: 'Noto Serif', serif;
+            color: #3E2723;
+            margin-bottom: 30px;
+            font-size: 3.0em;
+            font-style: italic;
+        }
+        .quote {
+            font-family: 'Noto Serif', serif;
+            color: #6D4C41;
+            margin-bottom: 40px;
+            font-style: italic;
+            line-height: 1.6;
+            font-size: 1.3em;
+        }
+        input {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid #D7CCC8;
+            border-radius: 8px;
+            background-color: #EFEBE9;
+            color: #5D4037;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 15px;
+            margin: 20px 0;
+            border: 2px solid #D7CCC8;
+            border-radius: 8px;
+            font-family: 'Quicksand', sans-serif;
+            background-color: #EFEBE9;
+            color: #5D4037;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            outline: none;
+            border-color: #795548;
+            box-shadow: 0 0 10px rgba(121, 85, 72, 0.2);
+        }
+        button {
+            background-color: #5D4037;
+            color: #F5EFE0;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #3E2723;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <h1>The Clean Slate</h1>
+        <div class="quote">“Every page is a journey, every word a step into the landscape of your inner world.”</div>
+        <input type="text" id="nameInput" placeholder="The story needs a name... What's yours?">
+        <button onclick="beginJourney()">Submit</button>
+    </div>
+
+    <script>
+        function beginJourney() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (name) {
+                localStorage.setItem('userName', name);
+                window.location.href = "main.html";
+            } else {
+                alert('Please enter your name to continue.');
+            }
+        }
+        document.getElementById('nameInput').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                beginJourney();
+            }
+        });
+    </script>
+</body>
+</html>
